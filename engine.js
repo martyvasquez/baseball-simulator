@@ -200,7 +200,7 @@
     set(c1, G.coverPt('1'), F === '1B' ? 'Sprint over and cover 1st base!' : 'Cover 1st base', 'cover');
     set(infieldCoverer('2', F), G.coverPt('2'), 'Cover 2nd base', 'cover');
     if (F === '3B') {
-      if (r[2]) set('SS', G.coverPt('3'), 'Cover 3rd — the third baseman left the bag', 'cover');
+      if (r[2] && !selfPlay) set('SS', G.coverPt('3'), 'Cover 3rd — the third baseman left the bag', 'cover');
       else set('SS', beyond(BASES.H, ball, 22 * K), 'Back up the third baseman', 'backup');
     } else {
       set('3B', G.coverPt('3'), 'Cover 3rd base', 'cover');
@@ -212,7 +212,7 @@
     if (F === '2B') set('P', along(HOME_POS.P, BASES[1], 40 * K), 'Break toward 1st on any ball hit to your left', 'other');
     set('P', along(HOME_POS.P, BASES[target], 12 * K), 'Get off the mound and be ready to help', 'other');
 
-    if (F === '1B') set('2B', along(HOME_POS['2B'], BASES[1], 45 * K), 'Move toward 1st in case the pitcher is late', 'other');
+    if (F === '1B') set('2B', along(BASES[1], BASES[2], 0.35 * G.bases), 'Move toward 1st in case the pitcher is late', 'other');
     if (F === 'P') set('2B', beyond(ball, BASES[2], 18 * K), 'Back up the shortstop at 2nd', 'backup');
 
     const p = res.throwPath;
@@ -274,7 +274,7 @@
           set('1B', G.coverPt('2'), 'Watch the batter touch 1st, then follow them to 2nd and cover it (both middle infielders are out on the relay)', 'cover');
         } else {
           set(other, G.coverPt('2'), 'Cover 2nd base', 'cover');
-          set('1B', along(along(B[1], B[2], 0.55 * G.bases), G.MOUND, 6 * K),
+          set('1B', along(along(B[1], B[2], 0.5 * G.bases), G.MOUND, 14 * K),
             'Watch the batter touch 1st, then trail them toward 2nd — be ready to help in a rundown', 'other');
         }
         set('P', beyond(leadPt, T, 28 * K), `Back up ${BASE_NAME[target]} base`, 'backup');
@@ -329,6 +329,9 @@
 
   function outfieldBackups(F, ball, set, res) {
     const { HOME_POS, BASES, k: K } = G;
+    // The pitcher backs up 2nd/3rd close (24/28 ft); an outfielder on the same line stays deeper.
+    const deep2 = 24 * K + 22 * G.dot;
+    const deep3 = 28 * K + 22 * G.dot;
     const behind = (o) => {
       let p = add(ball, mul(unit(ball), 25 * K));
       p = add(p, mul(unit(sub(HOME_POS[o], ball)), 16 * K));
@@ -339,14 +342,14 @@
       set('RF', behind('RF'), 'Back up the center fielder', 'backup');
     } else if (F === 'LF') {
       set('CF', behind('CF'), 'Back up the left fielder', 'backup');
-      set('RF', beyond(ball, BASES[2], 30 * K), 'Back up 2nd — line up behind the bag on the throw from left', 'backup');
+      set('RF', beyond(ball, BASES[2], deep2), 'Back up 2nd — line up deep behind the bag on the throw from left', 'backup');
       if (res.target !== '2') res.altThrows.push([ball, BASES[2]]);
     } else if (F === 'RF') {
       set('CF', behind('CF'), 'Back up the right fielder', 'backup');
       if (res.target === '2') {
-        set('LF', beyond(ball, BASES[2], 30 * K), 'Come in behind 2nd — back up the throw from right', 'backup');
+        set('LF', beyond(ball, BASES[2], deep2), 'Come in behind 2nd — back up the throw from right, deeper than the pitcher', 'backup');
       } else {
-        set('LF', beyond(ball, BASES[3], 35 * K), 'Come in and back up 3rd base', 'backup');
+        set('LF', beyond(ball, BASES[3], deep3), 'Come in and back up 3rd base, deeper than the pitcher', 'backup');
         if (res.target !== '3') res.altThrows.push([ball, BASES[3]]);
       }
     }
@@ -446,10 +449,10 @@
     ofPlay('CF', ball, target, r, set, res, { doThrow: true, kind: 'gap', relay: true });
     const leadPt = res.throwPath[1];
     if (left) {
-      set('RF', beyond(leadPt, BASES[2], 30 * K), 'Back up 2nd — line up behind the bag in case the relay man throws behind the batter (dotted line)', 'backup');
+      set('RF', beyond(leadPt, BASES[2], 24 * K + 22 * G.dot), 'Back up 2nd — line up behind the bag in case the relay man throws behind the batter (dotted line)', 'backup');
       res.altThrows.push([leadPt, BASES[2]]);
     } else {
-      set('LF', beyond(leadPt, BASES[3], 38 * K), 'Come in and back up 3rd base', 'backup');
+      set('LF', beyond(leadPt, BASES[3], 28 * K + 22 * G.dot), 'Come in and back up 3rd base, deeper than the pitcher', 'backup');
       if (target !== '3') res.altThrows.push([leadPt, BASES[3]]);
     }
 

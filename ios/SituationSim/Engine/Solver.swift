@@ -130,7 +130,7 @@ private final class Solver {
         set(c1, G.coverPt(.first), F == .first ? "Sprint over and cover 1st base!" : "Cover 1st base", .cover)
         set(infieldCoverer(.second, F), G.coverPt(.second), "Cover 2nd base", .cover)
         if F == .third {
-            if r2 { set(.ss, G.coverPt(.third), "Cover 3rd — the third baseman left the bag", .cover) }
+            if r2 && !selfPlay { set(.ss, G.coverPt(.third), "Cover 3rd — the third baseman left the bag", .cover) }
             else { set(.ss, beyond(B(.home), ball, 22 * K), "Back up the third baseman", .backup) }
         } else {
             set(.third, G.coverPt(.third), "Cover 3rd base", .cover)
@@ -142,7 +142,7 @@ private final class Solver {
         if F == .second { set(.p, along(home(.p), B(.first), 40 * K), "Break toward 1st on any ball hit to your left", .other) }
         set(.p, along(home(.p), B(target), 12 * K), "Get off the mound and be ready to help", .other)
 
-        if F == .first { set(.second, along(home(.second), B(.first), 45 * K), "Move toward 1st in case the pitcher is late", .other) }
+        if F == .first { set(.second, along(B(.first), B(.second), 0.35 * G.level.bases), "Move toward 1st in case the pitcher is late", .other) }
         if F == .p { set(.second, beyond(ball, B(.second), 18 * K), "Back up the shortstop at 2nd", .backup) }
 
         let p = res.throwPath
@@ -207,7 +207,7 @@ private final class Solver {
                     set(.first, G.coverPt(.second), "Watch the batter touch 1st, then follow them to 2nd and cover it (both middle infielders are out on the relay)", .cover)
                 } else {
                     set(other, G.coverPt(.second), "Cover 2nd base", .cover)
-                    set(.first, along(along(B(.first), B(.second), 0.55 * G.level.bases), G.mound, 6 * K),
+                    set(.first, along(along(B(.first), B(.second), 0.5 * G.level.bases), G.mound, 14 * K),
                         "Watch the batter touch 1st, then trail them toward 2nd — be ready to help in a rundown", .other)
                 }
                 set(.p, beyond(leadPt, T, 28 * K), "Back up \(target.name) base", .backup)
@@ -262,6 +262,9 @@ private final class Solver {
     }
 
     func outfieldBackups(_ F: Position, _ ball: Pt) {
+        // The pitcher backs up 2nd/3rd close (24/28 ft); an outfielder on the same line stays deeper.
+        let deep2 = 24 * K + 22 * G.dot
+        let deep3 = 28 * K + 22 * G.dot
         func behind(_ o: Position) -> Pt {
             var p = ball + ball.unit * (25 * K)
             p = p + (home(o) - ball).unit * (16 * K)
@@ -273,14 +276,14 @@ private final class Solver {
             set(.rf, behind(.rf), "Back up the center fielder", .backup)
         case .lf:
             set(.cf, behind(.cf), "Back up the left fielder", .backup)
-            set(.rf, beyond(ball, B(.second), 30 * K), "Back up 2nd — line up behind the bag on the throw from left", .backup)
+            set(.rf, beyond(ball, B(.second), deep2), "Back up 2nd — line up deep behind the bag on the throw from left", .backup)
             if res.target != .second { res.altThrows.append([ball, B(.second)]) }
         case .rf:
             set(.cf, behind(.cf), "Back up the right fielder", .backup)
             if res.target == .second {
-                set(.lf, beyond(ball, B(.second), 30 * K), "Come in behind 2nd — back up the throw from right", .backup)
+                set(.lf, beyond(ball, B(.second), deep2), "Come in behind 2nd — back up the throw from right, deeper than the pitcher", .backup)
             } else {
-                set(.lf, beyond(ball, B(.third), 35 * K), "Come in and back up 3rd base", .backup)
+                set(.lf, beyond(ball, B(.third), deep3), "Come in and back up 3rd base, deeper than the pitcher", .backup)
                 if res.target != .third { res.altThrows.append([ball, B(.third)]) }
             }
         default: break
@@ -382,10 +385,10 @@ private final class Solver {
         set(corner, G.inFence(side + ball.unit * (6 * G.dot), 8 * G.dot), "Back up the center fielder", .backup)
         let leadPt = ofPlay(.cf, ball, target, doThrow: true, kind: .gap, relay: true)
         if left {
-            set(.rf, beyond(leadPt, B(.second), 30 * K), "Back up 2nd — line up behind the bag in case the relay man throws behind the batter (dotted line)", .backup)
+            set(.rf, beyond(leadPt, B(.second), 24 * K + 22 * G.dot), "Back up 2nd — line up behind the bag in case the relay man throws behind the batter (dotted line)", .backup)
             res.altThrows.append([leadPt, B(.second)])
         } else {
-            set(.lf, beyond(leadPt, B(.third), 38 * K), "Come in and back up 3rd base", .backup)
+            set(.lf, beyond(leadPt, B(.third), 28 * K + 22 * G.dot), "Come in and back up 3rd base, deeper than the pitcher", .backup)
             if target != .third { res.altThrows.append([leadPt, B(.third)]) }
         }
 
