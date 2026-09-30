@@ -83,9 +83,12 @@
     el('polyline', { points: pts(fence), fill: 'none', stroke: '#e5e7eb', 'stroke-width': 2 * d }, svg);
 
     // Fence distance markers
+    // Labels sit just outside the fence (corner ones a little in from the pole), clear of
+    // players chasing balls into the corners.
     for (const deg of [-45, 0, 45]) {
-      const p = G.polar(deg, G.fenceAt(deg) + 9 * d);
-      const t = el('text', { x: S(p).x + (deg ? -Math.sign(deg) * 10 * d : 0), y: S(p).y, class: 'tag', 'font-size': 8 * d, 'stroke-width': 0 }, svg);
+      const at = deg === 0 ? 0 : Math.sign(deg) * 39;
+      const p = G.polar(at, G.fenceAt(at) + 9 * d);
+      const t = el('text', { x: S(p).x, y: S(p).y, class: 'tag', 'font-size': 8 * d, 'stroke-width': 0 }, svg);
       t.textContent = `${Math.round(G.fenceAt(deg))}'`;
     }
 

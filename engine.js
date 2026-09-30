@@ -57,6 +57,8 @@
     single_RF: { kind: 'single', to: 'RF', group: 'Base hit (single)', label: 'RF', text: 'Base hit to right field' },
     gap_LC: { kind: 'gap', to: 'CF', side: 'L', group: 'Gap hit (double)', label: 'Left-center', text: 'Double into the left-center gap' },
     gap_RC: { kind: 'gap', to: 'CF', side: 'R', group: 'Gap hit (double)', label: 'Right-center', text: 'Double into the right-center gap' },
+    line_3B: { kind: 'gap', to: 'LF', side: 'L', line: true, group: 'Down the line (double)', label: '3rd-base line', text: 'Double down the third-base line, into the left-field corner' },
+    line_1B: { kind: 'gap', to: 'RF', side: 'R', line: true, group: 'Down the line (double)', label: '1st-base line', text: 'Double down the first-base line, into the right-field corner' },
   };
 
   // Build the geometry for one level. Infield spots come from a 90-ft template
@@ -89,6 +91,8 @@
       fly_LF: of(-32, flyF), fly_CF: of(0, flyF), fly_RF: of(32, flyF),
       single_LF: of(-31, 0.6), single_CF: of(0, 0.6), single_RF: of(31, 0.6),
       gap_LC: of(-21, 0.94), gap_RC: of(21, 0.94),
+      // Just fair, in the corner by the foul pole.
+      line_3B: of(-41, 0.92), line_1B: of(41, 0.92),
     };
     const coverPt = (base) => (base === 'H' ? pt(0, -3) : along(BASES[base], MOUND, 3 * dot));
     const runnerPt = (base) => (base === 'H' ? mul(pt(-13, 3), dot) : beyond(pt(0, b), BASES[base], 15 * dot));
@@ -259,15 +263,27 @@
       if (trail) set(other, along(leadPt, T, 32 * K), 'Trail the relay man by ~30 feet — catch a bad throw and yell where it goes', 'cutoff');
       set('C', G.coverPt('H'), 'Cover home', 'cover');
       if (target === 'H') {
-        // 1B is the cutoff in front of home on every field size — it can cut the
-        // relay throw and get the batter trying to take an extra base.
         const cut = along(B.H, leadPt, 48 * K);
-        set('1B', cut, 'Watch the batter touch 1st, then hustle to the cutoff spot in front of home', 'cutoff');
-        if (!trail) set(other, G.coverPt('2'), 'Cover 2nd base', 'cover');
-        res.throwPath = [src, leadPt, cut, B.H];
-        set('3B', G.coverPt('3'), 'Cover 3rd base', 'cover');
         const split = beyond(pt(0, G.bases / Math.SQRT2), mul(B[3], 0.5), 30 * K);
-        set('P', split, 'Go halfway between 3rd and home in foul territory — read the throw, then back up that base', 'backup');
+        if (opts.leftLine) {
+          // Down the left-field line the 3B is the cutoff home; 1B trails the batter to 2nd.
+          set('3B', cut, 'Cutoff for the relay throw home — the ball is on the left side', 'cutoff');
+          if (trail) set('1B', G.coverPt('2'), 'Watch the batter touch 1st, then follow them to 2nd and cover it', 'cover');
+          else {
+            set(other, G.coverPt('2'), 'Cover 2nd base', 'cover');
+            set('1B', along(along(B[1], B[2], 0.5 * G.bases), G.MOUND, 14 * K),
+              'Watch the batter touch 1st, then trail them toward 2nd', 'other');
+          }
+          set('P', split, 'Go halfway between 3rd and home — the 3B is the cutoff, so cover 3rd if the play goes there; otherwise back up home', 'backup');
+        } else {
+          // 1B is the cutoff in front of home — it can cut the relay throw and get
+          // the batter trying to take an extra base.
+          set('1B', cut, 'Watch the batter touch 1st, then hustle to the cutoff spot in front of home', 'cutoff');
+          if (!trail) set(other, G.coverPt('2'), 'Cover 2nd base', 'cover');
+          set('3B', G.coverPt('3'), 'Cover 3rd base', 'cover');
+          set('P', split, 'Go halfway between 3rd and home in foul territory — read the throw, then back up that base', 'backup');
+        }
+        res.throwPath = [src, leadPt, cut, B.H];
       } else {
         set('3B', G.coverPt('3'), 'Cover 3rd — keep the batter from a triple', 'cover');
         if (trail) {
@@ -438,15 +454,20 @@
   function gap(h, ball, r, outs, set, res) {
     const { BASES, HOME_POS, k: K } = G;
     const left = h.side === 'L';
-    const corner = left ? 'LF' : 'RF';
+    // Gap: CF fields it and the corner outfielder backs up. Down the line: the corner
+    // outfielder fields it and the CF backs up.
+    const F = h.to;
+    const corner = F === 'CF' ? (left ? 'LF' : 'RF') : 'CF';
+    const where = h.line ? 'the corner' : 'the gap';
     const target = anyRunners(r) ? 'H' : '3';
-    res.rules.push('R1', 'R2', target === 'H' ? 'R3' : 'R4', 'R5', 'S8');
+    if (h.line) res.rules.push('R6', 'R2', target === 'H' ? 'R7' : 'R4', 'S8');
+    else res.rules.push('R1', 'R2', target === 'H' ? 'R3' : 'R4', 'R5', 'S8');
 
-    set('CF', ball, 'Chase it down and throw to the relay man', 'field');
+    set(F, ball, h.line ? 'Chase it into the corner and throw to the relay man' : 'Chase it down and throw to the relay man', 'field');
     // Back up from the side (the ball is near the fence, so there's no room behind).
     const side = along(ball, HOME_POS[corner], 24 * G.dot);
-    set(corner, G.inFence(add(side, mul(unit(ball), 6 * G.dot)), 8 * G.dot), 'Back up the center fielder', 'backup');
-    ofPlay('CF', ball, target, r, set, res, { doThrow: true, kind: 'gap', relay: true });
+    set(corner, G.inFence(add(side, mul(unit(ball), 6 * G.dot)), 8 * G.dot), `Back up the ${POS_NAME[F].toLowerCase()}`, 'backup');
+    ofPlay(F, ball, target, r, set, res, { doThrow: true, kind: 'gap', relay: true, leftLine: h.line && left });
     const leadPt = res.throwPath[1];
     if (left) {
       set('RF', beyond(leadPt, BASES[2], 24 * K + 22 * G.dot), 'Back up 2nd — line up behind the bag in case the relay man throws behind the batter (dotted line)', 'backup');
@@ -458,7 +479,7 @@
 
     if (target === 'H') {
       res.headline = 'Relay it home!';
-      res.why = 'Runners will try to score on a ball in the gap. Use the relay: outfielder → relay man → home. Two short, strong throws beat one long, bouncing one.';
+      res.why = `Runners will try to score on a ball in ${where}. Use the relay: outfielder → relay man → home. Two short, strong throws beat one long, bouncing one.`;
     } else {
       res.headline = 'Relay it to 3rd!';
       res.why = 'Nobody on, so the batter is thinking triple. Relay the ball to 3rd to hold them at 2nd.';

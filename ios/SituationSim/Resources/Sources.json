@@ -432,5 +432,43 @@
     "url": "https://probaseballinsider.com/baseball-instruction/positioning-for-double-cuts-and-relays/"
    }
   ]
+ },
+ "R6": {
+  "rule": "Double down the line: corner outfielder fields it, CF backs up; SS is the relay on the LF line, 2B on the RF line",
+  "verdict": "partly",
+  "note": "The left-field line is confirmed by every chart we checked, including the trail man only on deep fields. On the right-field line one chart has the SS trail the 2B (as here); Inside Baseball uses the 1B as the trailer instead. The far outfielder comes in toward 2nd (LF line) or 3rd (RF line).",
+  "links": [
+   {
+    "name": "Inside Baseball — Cutoffs & Relays (PDF)",
+    "url": "https://cdn1.sportngin.com/attachments/document/e934-2443306/Baseball-Cutoff-Relay.pdf"
+   },
+   {
+    "name": "Defensive Situations & Strategies chart (PDF)",
+    "url": "https://cdn1.sportngin.com/attachments/document/0098/4522/Defensive_Situations_and_Strategies.pdf"
+   },
+   {
+    "name": "Rochester Youth Baseball — cutoff slides",
+    "url": "https://docs.google.com/presentation/d/14EPTLoH9zGCjuI3qqpFIE8iigkZ03FcydT7ZLPYPI6E/htmlpresent"
+   }
+  ]
+ },
+ "R7": {
+  "rule": "Double down the line, runner scoring: 3B is the cutoff home on the LF line, 1B on the RF line",
+  "verdict": "partly",
+  "note": "Sources disagree on the left-field line: Inside Baseball and the Rochester youth slides make the 3B the cutoff with the 1B trailing the batter to 2nd; another chart uses no cutoff and keeps the 3B at 3rd. On the right-field line the 1B cutoff and pitcher halfway between 3rd and home are confirmed.",
+  "links": [
+   {
+    "name": "Inside Baseball — Cutoffs & Relays (PDF)",
+    "url": "https://cdn1.sportngin.com/attachments/document/e934-2443306/Baseball-Cutoff-Relay.pdf"
+   },
+   {
+    "name": "Defensive Situations & Strategies chart (PDF)",
+    "url": "https://cdn1.sportngin.com/attachments/document/0098/4522/Defensive_Situations_and_Strategies.pdf"
+   },
+   {
+    "name": "Rochester Youth Baseball — cutoff slides",
+    "url": "https://docs.google.com/presentation/d/14EPTLoH9zGCjuI3qqpFIE8iigkZ03FcydT7ZLPYPI6E/htmlpresent"
+   }
+  ]
  }
 }

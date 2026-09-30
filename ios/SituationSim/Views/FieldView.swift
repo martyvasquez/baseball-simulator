@@ -187,14 +187,11 @@ struct FieldPainter {
         ctx.stroke(fence, with: .color(.white.opacity(0.9)), lineWidth: 2 * u)
 
         for deg in [-45.0, 0, 45] {
-            // Center label sits above the fence; corner labels sit just inside the foul pole, above the line.
+            // Labels sit just outside the fence (corner ones a little in from the pole), clear of
+            // players chasing balls into the corners.
             let text = Text("\(Int(f.fenceAt(deg).rounded()))'").font(.system(size: 8 * u, weight: .heavy, design: .rounded)).foregroundStyle(.white)
-            if deg == 0 {
-                ctx.draw(text, at: frame.v(polar(0, f.fenceAt(0) + 9 * d)))
-            } else {
-                let p = frame.v(polar(deg, f.fenceAt(deg)))
-                ctx.draw(text, at: CGPoint(x: p.x - (deg > 0 ? 1 : -1) * 24 * u, y: p.y - 16 * u))
-            }
+            let at = deg == 0 ? 0 : (deg > 0 ? 39.0 : -39.0)
+            ctx.draw(text, at: frame.v(polar(at, f.fenceAt(at) + 9 * d)))
         }
 
         // Infield dirt, kept to fair territory plus a strip for the bags.

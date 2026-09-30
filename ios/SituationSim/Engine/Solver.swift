@@ -179,7 +179,7 @@ private final class Solver {
     // Ball in front of the outfielder: one cutoff man lines up. Ball past them
     // (gap/wall): a relay man goes out, plus a trail man on big fields.
     @discardableResult
-    func ofPlay(_ F: Position, _ src: Pt, _ target: Base, doThrow: Bool, kind: OFKind, relay: Bool = false) -> Pt {
+    func ofPlay(_ F: Position, _ src: Pt, _ target: Base, doThrow: Bool, kind: OFKind, relay: Bool = false, leftLine: Bool = false) -> Pt {
         let T = B(target)
         let d = src.distance(to: T)
         if relay {
@@ -192,15 +192,28 @@ private final class Solver {
             if trail { set(other, along(leadPt, T, 32 * K), "Trail the relay man by ~30 feet — catch a bad throw and yell where it goes", .cutoff) }
             set(.c, G.coverPt(.home), "Cover home", .cover)
             if target == .home {
-                // 1B is the cutoff in front of home on every field size — it can cut the
-                // relay throw and get the batter trying to take an extra base.
                 let cut = along(B(.home), leadPt, 48 * K)
-                set(.first, cut, "Watch the batter touch 1st, then hustle to the cutoff spot in front of home", .cutoff)
-                if !trail { set(other, G.coverPt(.second), "Cover 2nd base", .cover) }
-                res.throwPath = [src, leadPt, cut, B(.home)]
-                set(.third, G.coverPt(.third), "Cover 3rd base", .cover)
                 let split = beyond(Pt(0, G.level.bases / 2.0.squareRoot()), B(.third) * 0.5, 30 * K)
-                set(.p, split, "Go halfway between 3rd and home in foul territory — read the throw, then back up that base", .backup)
+                if leftLine {
+                    // Down the left-field line the 3B is the cutoff home; 1B trails the batter to 2nd.
+                    set(.third, cut, "Cutoff for the relay throw home — the ball is on the left side", .cutoff)
+                    if trail {
+                        set(.first, G.coverPt(.second), "Watch the batter touch 1st, then follow them to 2nd and cover it", .cover)
+                    } else {
+                        set(other, G.coverPt(.second), "Cover 2nd base", .cover)
+                        set(.first, along(along(B(.first), B(.second), 0.5 * G.level.bases), G.mound, 14 * K),
+                            "Watch the batter touch 1st, then trail them toward 2nd", .other)
+                    }
+                    set(.p, split, "Go halfway between 3rd and home — the 3B is the cutoff, so cover 3rd if the play goes there; otherwise back up home", .backup)
+                } else {
+                    // 1B is the cutoff in front of home — it can cut the relay throw and get
+                    // the batter trying to take an extra base.
+                    set(.first, cut, "Watch the batter touch 1st, then hustle to the cutoff spot in front of home", .cutoff)
+                    if !trail { set(other, G.coverPt(.second), "Cover 2nd base", .cover) }
+                    set(.third, G.coverPt(.third), "Cover 3rd base", .cover)
+                    set(.p, split, "Go halfway between 3rd and home in foul territory — read the throw, then back up that base", .backup)
+                }
+                res.throwPath = [src, leadPt, cut, B(.home)]
             } else {
                 set(.third, G.coverPt(.third), "Cover 3rd — keep the batter from a triple", .cover)
                 if trail {
@@ -375,15 +388,23 @@ private final class Solver {
 
     func gap(_ ball: Pt) {
         let left = hit.leftSide
-        let corner: Position = left ? .lf : .rf
+        // Gap: CF fields it and the corner outfielder backs up. Down the line: the corner
+        // outfielder fields it and the CF backs up.
+        let F = hit.fielder!
+        let corner: Position = F == .cf ? (left ? .lf : .rf) : .cf
+        let place = hit.line ? "the corner" : "the gap"
         let target: Base = anyRunners ? .home : .third
-        res.rules += ["R1", "R2", target == .home ? "R3" : "R4", "R5", "S8"]
+        if hit.line {
+            res.rules += ["R6", "R2", target == .home ? "R7" : "R4", "S8"]
+        } else {
+            res.rules += ["R1", "R2", target == .home ? "R3" : "R4", "R5", "S8"]
+        }
 
-        set(.cf, ball, "Chase it down and throw to the relay man", .field)
+        set(F, ball, hit.line ? "Chase it into the corner and throw to the relay man" : "Chase it down and throw to the relay man", .field)
         // Back up from the side (the ball is near the fence, so there's no room behind).
         let side = along(ball, home(corner), 24 * G.dot)
-        set(corner, G.inFence(side + ball.unit * (6 * G.dot), 8 * G.dot), "Back up the center fielder", .backup)
-        let leadPt = ofPlay(.cf, ball, target, doThrow: true, kind: .gap, relay: true)
+        set(corner, G.inFence(side + ball.unit * (6 * G.dot), 8 * G.dot), "Back up the \(F.name.lowercased())", .backup)
+        let leadPt = ofPlay(F, ball, target, doThrow: true, kind: .gap, relay: true, leftLine: hit.line && left)
         if left {
             set(.rf, beyond(leadPt, B(.second), 24 * K + 22 * G.dot), "Back up 2nd — line up behind the bag in case the relay man throws behind the batter (dotted line)", .backup)
             res.altThrows.append([leadPt, B(.second)])
@@ -394,7 +415,7 @@ private final class Solver {
 
         if target == .home {
             res.headline = "Relay it home!"
-            res.why = "Runners will try to score on a ball in the gap. Use the relay: outfielder → relay man → home. Two short, strong throws beat one long, bouncing one."
+            res.why = "Runners will try to score on a ball in \(place). Use the relay: outfielder → relay man → home. Two short, strong throws beat one long, bouncing one."
         } else {
             res.headline = "Relay it to 3rd!"
             res.why = "Nobody on, so the batter is thinking triple. Relay the ball to 3rd to hold them at 2nd."

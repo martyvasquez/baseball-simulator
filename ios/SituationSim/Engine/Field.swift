@@ -36,6 +36,8 @@ struct Field: Sendable {
             "fly_LF": of(-32, flyF), "fly_CF": of(0, flyF), "fly_RF": of(32, flyF),
             "single_LF": of(-31, 0.6), "single_CF": of(0, 0.6), "single_RF": of(31, 0.6),
             "gap_LC": of(-21, 0.94), "gap_RC": of(21, 0.94),
+            // Just fair, in the corner by the foul pole.
+            "line_3B": of(-41, 0.92), "line_1B": of(41, 0.92),
         ]
     }
 

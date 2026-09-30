@@ -47,7 +47,7 @@ struct SetupSidebar: View {
                             model.situation.hitID = hit.id
                         } label: {
                             HStack {
-                                Label(hit.label, systemImage: symbol(hit.kind))
+                                Label(hit.label, systemImage: hit.line ? (hit.leftSide ? "arrow.up.left" : "arrow.up.right") : symbol(hit.kind))
                                     .foregroundStyle(.primary)
                                 Spacer()
                                 if model.situation.hitID == hit.id {

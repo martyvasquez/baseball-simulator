@@ -195,5 +195,15 @@
       note: 'The outfielders going for the ball back each other up — whoever doesn\'t field it backs up the one who does.',
       links: [L.ib, L.pbiDouble],
     },
+    R6: {
+      rule: 'Double down the line: corner outfielder fields it, CF backs up; SS is the relay on the LF line, 2B on the RF line', verdict: 'partly',
+      note: 'The left-field line is confirmed by every chart we checked, including the trail man only on deep fields. On the right-field line one chart has the SS trail the 2B (as here); Inside Baseball uses the 1B as the trailer instead. The far outfielder comes in toward 2nd (LF line) or 3rd (RF line).',
+      links: [L.ib, L.sng, L.ryba],
+    },
+    R7: {
+      rule: 'Double down the line, runner scoring: 3B is the cutoff home on the LF line, 1B on the RF line', verdict: 'partly',
+      note: 'Sources disagree on the left-field line: Inside Baseball and the Rochester youth slides make the 3B the cutoff with the 1B trailing the batter to 2nd; another chart uses no cutoff and keeps the 3B at 3rd. On the right-field line the 1B cutoff and pitcher halfway between 3rd and home are confirmed.',
+      links: [L.ib, L.sng, L.ryba],
+    },
   };
 })(this);

@@ -95,6 +95,8 @@ struct Hit: Identifiable, Hashable, Sendable {
     let kind: HitKind
     let fielder: Position?
     let leftSide: Bool
+    /// Extra-base hit down the foul line, into the corner.
+    var line = false
     let group: String
     let label: String
     let text: String
@@ -114,6 +116,8 @@ struct Hit: Identifiable, Hashable, Sendable {
         Hit(id: "single_RF", kind: .single, fielder: .rf, leftSide: false, group: "Base hit (single)", label: "RF", text: "Base hit to right field"),
         Hit(id: "gap_LC", kind: .gap, fielder: .cf, leftSide: true, group: "Gap hit (double)", label: "Left-center", text: "Double into the left-center gap"),
         Hit(id: "gap_RC", kind: .gap, fielder: .cf, leftSide: false, group: "Gap hit (double)", label: "Right-center", text: "Double into the right-center gap"),
+        Hit(id: "line_3B", kind: .gap, fielder: .lf, leftSide: true, line: true, group: "Down the line (double)", label: "3rd-base line", text: "Double down the third-base line, into the left-field corner"),
+        Hit(id: "line_1B", kind: .gap, fielder: .rf, leftSide: false, line: true, group: "Down the line (double)", label: "1st-base line", text: "Double down the first-base line, into the right-field corner"),
     ]
 
     static func named(_ id: String) -> Hit { all.first { $0.id == id }! }

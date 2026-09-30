@@ -3,7 +3,7 @@ import Testing
 @testable import SituationSim
 
 /// The Swift engine must give the same answer as the web engine (engine.js) for
-/// every situation: 14 plays × 8 runner setups × 3 out counts × 3 field sizes.
+/// every situation: every play × 8 runner setups × 3 out counts × 3 field sizes.
 /// fixtures.json is exported from engine.js.
 struct EngineParityTests {
     struct Fixture: Decodable {
@@ -39,7 +39,7 @@ struct EngineParityTests {
     }
 
     @Test func fixtureCount() {
-        #expect(Self.fixtures.count == 1008)
+        #expect(Self.fixtures.count == Hit.all.count * 8 * 3 * Level.allCases.count)
     }
 
     @Test func everySituationMatchesTheWebEngine() {
