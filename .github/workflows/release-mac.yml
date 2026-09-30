@@ -1,0 +1,66 @@
+# Publishes the Mac app on every push to main that changes it. Installed copies
+# check this repo's latest release when they launch and update themselves.
+name: Release Mac app
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "ios/**"
+      - ".github/workflows/release-mac.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-mac
+  cancel-in-progress: false
+
+env:
+  PROJECT: ios/SituationSim.xcodeproj
+  SCHEME: SituationSimMac
+  # No paid Apple account: builds are ad-hoc signed. Updates are trusted through
+  # Sparkle's own signature (SPARKLE_PRIVATE_KEY), checked by every installed copy.
+  SIGNING: CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM=
+
+jobs:
+  release:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Xcode version
+        run: xcodebuild -version
+
+      - name: Test
+        run: xcodebuild test -project "$PROJECT" -scheme "$SCHEME" -destination platform=macOS -derivedDataPath build $SIGNING
+
+      - name: Build
+        run: |
+          # Build numbers always go up; the offset keeps them above hand-made test builds.
+          BUILD=$((GITHUB_RUN_NUMBER + 100))
+          echo "BUILD=$BUILD" >> "$GITHUB_ENV"
+          xcodebuild build -project "$PROJECT" -scheme "$SCHEME" -configuration Release \
+            -destination "generic/platform=macOS" -derivedDataPath build \
+            CURRENT_PROJECT_VERSION=$BUILD $SIGNING
+
+      - name: Package and sign the update
+        env:
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+        run: |
+          mkdir release
+          ditto -c -k --keepParent build/Build/Products/Release/Situations.app release/Situations.zip
+          echo "$SPARKLE_PRIVATE_KEY" | build/SourcePackages/artifacts/sparkle/Sparkle/bin/generate_appcast \
+            --ed-key-file - \
+            --download-url-prefix "https://github.com/${GITHUB_REPOSITORY}/releases/download/build-${BUILD}/" \
+            release
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "build-$BUILD" release/Situations.zip release/appcast.xml \
+            --title "Situations build $BUILD" \
+            --notes "$(git log -1 --pretty=%s)" \
+            --latest

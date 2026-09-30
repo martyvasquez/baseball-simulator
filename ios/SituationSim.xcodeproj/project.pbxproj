@@ -17,8 +17,11 @@
 		346FFE7689FFA48553DE6A08 /* SetupSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6164DE25DE9FAC16B23AD72 /* SetupSidebar.swift */; };
 		36335126BF93A42AD90EDB9B /* LayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF9666E21FC74E48C4AF028 /* LayoutTests.swift */; };
 		3EBD194F0C9430AA6C3DBEB8 /* SituationSimApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB432C25353D901AB3B90367 /* SituationSimApp.swift */; };
+		41E934C139FE5099B54EB8E2 /* AppUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252EC22C68AC649583EB25FD /* AppUpdater.swift */; };
+		4C8E39700B5EB0574BA7F7B8 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = E263E8BDD0A609998A10711F /* Sparkle */; };
 		521EDBBD905C88CB9D78BF47 /* SetupSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6164DE25DE9FAC16B23AD72 /* SetupSidebar.swift */; };
 		52EAB64AC2DF8A45220B5D86 /* SituationSimApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB432C25353D901AB3B90367 /* SituationSimApp.swift */; };
+		5A66BC2CFA8EA388C06FE849 /* AppUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252EC22C68AC649583EB25FD /* AppUpdater.swift */; };
 		5F1028160E318592C6FFC937 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D838795B97DEE63BDBFC0845 /* Geometry.swift */; };
 		6119BB81A895019693BA9457 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = C629682881CAF245696B8792 /* Model.swift */; };
 		67E96261A0C0874D69963479 /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4EF9040EF0F720B125BF57 /* Field.swift */; };
@@ -81,6 +84,7 @@
 		153AAC5B852A48BA0A8060C2 /* Solver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solver.swift; sourceTree = "<group>"; };
 		168B8C721645ADF9890CC400 /* fixtures.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = fixtures.json; sourceTree = "<group>"; };
 		1D3B305207984298CFF7E7F0 /* PlaybackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackTests.swift; sourceTree = "<group>"; };
+		252EC22C68AC649583EB25FD /* AppUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdater.swift; sourceTree = "<group>"; };
 		3123106EC0C50CB143062686 /* SituationSimMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SituationSimMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		360A8E01BC575965610F0A79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3B34BA2238AF1BB04C841050 /* SituationSim.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SituationSim.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,6 +110,17 @@
 		D838795B97DEE63BDBFC0845 /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
 		D92D04EFC417B24CDAA81DAD /* Sources.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Sources.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4E1254FA50A5172A6AEA9013 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C8E39700B5EB0574BA7F7B8 /* Sparkle in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		1B1FCA372AB40352E4249C0D /* Products */ = {
@@ -155,6 +170,7 @@
 		C17A953AB71C1AA7B35E8AB4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				252EC22C68AC649583EB25FD /* AppUpdater.swift */,
 				769F9DDA5A653F317A4AF065 /* DemoLaunch.swift */,
 				C2A1880C7640CD4D76CA1421 /* SimulatorModel.swift */,
 				4410555855848463D59701FD /* SourceNotes.swift */,
@@ -234,6 +250,7 @@
 			buildPhases = (
 				72F959120E96554DC8FCE7A5 /* Sources */,
 				FB5CE36F78F2403936E0CFDD /* Resources */,
+				4E1254FA50A5172A6AEA9013 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -241,6 +258,7 @@
 			);
 			name = SituationSimMac;
 			packageProductDependencies = (
+				E263E8BDD0A609998A10711F /* Sparkle */,
 			);
 			productName = SituationSimMac;
 			productReference = 3123106EC0C50CB143062686 /* SituationSimMac.app */;
@@ -339,6 +357,9 @@
 			);
 			mainGroup = EA79B671005B8FBEFE7F9B12;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				65E7FE36C6135DB1CA14B0B5 /* XCRemoteSwiftPackageReference "Sparkle" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1B1FCA372AB40352E4249C0D /* Products */;
 			projectDirPath = "";
@@ -424,6 +445,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A92A137A22E45C303EDABD7B /* AnswerPanel.swift in Sources */,
+				41E934C139FE5099B54EB8E2 /* AppUpdater.swift in Sources */,
 				9FDED0BEC83259084DF9996C /* ContentView.swift in Sources */,
 				CA91175AF3874CFF7229E913 /* DemoLaunch.swift in Sources */,
 				7ECEBA51FCD114617A056247 /* Field.swift in Sources */,
@@ -446,6 +468,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5EEE84E536C7E26FAD79DF8 /* AnswerPanel.swift in Sources */,
+				5A66BC2CFA8EA388C06FE849 /* AppUpdater.swift in Sources */,
 				2FB91A200560A55391383A48 /* ContentView.swift in Sources */,
 				E5AD411632EF184C488160AA /* DemoLaunch.swift in Sources */,
 				67E96261A0C0874D69963479 /* Field.swift in Sources */,
@@ -637,7 +660,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = SituationSimMac/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -674,7 +697,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = SituationSimMac/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -845,6 +868,25 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		65E7FE36C6135DB1CA14B0B5 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E263E8BDD0A609998A10711F /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 65E7FE36C6135DB1CA14B0B5 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3DBF2FB265821E381DD1B30C /* Project object */;
 }

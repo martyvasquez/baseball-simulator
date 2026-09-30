@@ -5,6 +5,10 @@ options:
     iOS: "26.0"
     macOS: "14.0"
   createIntermediateGroups: true
+packages:
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    majorVersion: 2.6.0
 settings:
   base:
     SWIFT_VERSION: "6.0"
@@ -69,11 +73,21 @@ targets:
       - path: SituationSim
         excludes:
           - Info.plist
+    dependencies:
+      - package: Sparkle
     info:
       path: SituationSimMac/Info.plist
       properties:
         CFBundleName: Situations
         CFBundleDisplayName: Situations
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        # Self-updating from GitHub Releases (see .github/workflows/release-mac.yml).
+        SUFeedURL: https://github.com/martyvasquez/baseball-simulator/releases/latest/download/appcast.xml
+        SUPublicEDKey: bXJpu//h4FK4lq+dF05izwGsvmZnIV3UIHP7CqPgKV0=
+        SUEnableAutomaticChecks: true
+        SUAutomaticallyUpdate: true
+        SUVerifyUpdateBeforeExtraction: true
         LSApplicationCategoryType: public.app-category.education
         NSHumanReadableCopyright: A baseball situations teaching tool.
     settings:
@@ -84,7 +98,7 @@ targets:
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIconMac
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         CODE_SIGN_STYLE: Automatic
-        ENABLE_HARDENED_RUNTIME: YES
+        ENABLE_HARDENED_RUNTIME: NO
         COMBINE_HIDPI_IMAGES: YES
   SituationSimMacTests:
     type: bundle.unit-test
