@@ -1,0 +1,436 @@
+{
+ "D1": {
+  "rule": "Little League: 60' bases, 46' mound, 200' fence",
+  "verdict": "confirmed",
+  "note": "Official Little League specs for Majors and below. The 200-ft fence is a recommendation; leagues can set their own.",
+  "links": [
+   {
+    "name": "Little League field specs",
+    "url": "https://www.littleleague.org/league-officials/field-specifications"
+   }
+  ]
+ },
+ "D2": {
+  "rule": "13U/14U: 80' bases, 54' mound, ~300' fence",
+  "verdict": "partly",
+  "note": "80/54 matches Pony (13–14). But Little League Juniors, Babe Ruth, and most 14U travel ball play the full 90' / 60'6\", and some 13U travel uses 80/54 with ~275' lines. Check what your league plays.",
+  "links": [
+   {
+    "name": "Umpire Bible — field dimensions",
+    "url": "https://umpirebible.com/index.php/rules-pitching/pitcher-s-mound-field-dimensions"
+   },
+   {
+    "name": "Little League field specs",
+    "url": "https://www.littleleague.org/league-officials/field-specifications"
+   }
+  ]
+ },
+ "D3": {
+  "rule": "High school: 90' bases, 60'6\" mound, 330' lines / 390' center",
+  "verdict": "partly",
+  "note": "Bases and mound are NFHS rule. NFHS only requires 300' lines / 350' center for new fields — 330/390 is typical of real fields, not a requirement.",
+  "links": [
+   {
+    "name": "NFHS Rule 1-2 (Baseball Rules Academy)",
+    "url": "https://baseballrulesacademy.com/official-rule/nfhs/section-2-the-field/"
+   },
+   {
+    "name": "KHSAA site specs",
+    "url": "https://khsaa.org/baseball/sitespecifications.pdf"
+   }
+  ]
+ },
+ "G1": {
+  "rule": "Two outs: take the closest force (the sure out)",
+  "verdict": "confirmed",
+  "note": "Polk: make the play closest to where you field the ball. Many coaches simplify it to \"take the sure out, usually at 1st.\"",
+  "links": [
+   {
+    "name": "Ron Polk — force plays (Coaches Insider)",
+    "url": "https://coachesinsider.com/baseball/rules-for-force-plays-in-the-infield-article"
+   }
+  ]
+ },
+ "G2": {
+  "rule": "Runner on 1st, less than 2 outs: double play starting at 2nd",
+  "verdict": "confirmed",
+  "note": "Standard: get the lead runner at 2nd, relay to 1st. On a slow roller where you can't reach the lead runner, take the out at 1st.",
+  "links": [
+   {
+    "name": "Wikipedia — Covering a base",
+    "url": "https://en.wikipedia.org/wiki/Covering_a_base"
+   },
+   {
+    "name": "Ron Polk — force plays (Coaches Insider)",
+    "url": "https://coachesinsider.com/baseball/rules-for-force-plays-in-the-infield-article"
+   }
+  ]
+ },
+ "G3": {
+  "rule": "Bases loaded, less than 2 outs: home, then catcher to 1st",
+  "verdict": "partly",
+  "note": "Polk ties home-to-1st to late innings when the runner on 3rd is the tying/winning run. Early in the game, many coaches take the usual double play through 2nd and give up the run.",
+  "links": [
+   {
+    "name": "Ron Polk — force plays (Coaches Insider)",
+    "url": "https://coachesinsider.com/baseball/rules-for-force-plays-in-the-infield-article"
+   }
+  ]
+ },
+ "G4": {
+  "rule": "Runners on 2nd/3rd only: look them back, throw to 1st",
+  "verdict": "confirmed",
+  "note": "With the infield back you trade a run for an out to avoid a big inning. With the infield in, you play the runner at home.",
+  "links": [
+   {
+    "name": "Ron Polk — force plays (Coaches Insider)",
+    "url": "https://coachesinsider.com/baseball/rules-for-force-plays-in-the-infield-article"
+   },
+   {
+    "name": "Coaches Insider — runner on 3rd, infield back",
+    "url": "https://coachesinsider.com/baseball/runner-at-third-infield-back-less-than-two-outs-article/"
+   }
+  ]
+ },
+ "G5": {
+  "rule": "Who covers 2nd: ball to the left side → 2B; right side → SS; comebacker → SS",
+  "verdict": "confirmed",
+  "note": "The rule is: the fielder who doesn't have to turn their back to the throw covers. Some teams pre-assign comebacker coverage by the batter's handedness.",
+  "links": [
+   {
+    "name": "Wikipedia — Covering a base",
+    "url": "https://en.wikipedia.org/wiki/Covering_a_base"
+   },
+   {
+    "name": "Larry Mason (UNC) — Shortstop",
+    "url": "https://mason.web.unc.edu/2018/10/shortstop/"
+   }
+  ]
+ },
+ "G6": {
+  "rule": "Pitcher covers 1st on any ball hit to their left",
+  "verdict": "confirmed",
+  "note": "Sprint to a spot about 10 ft up the line, then run parallel to it on the inside — not straight at the bag.",
+  "links": [
+   {
+    "name": "Gary Adams — pitcher covering 1st (Active)",
+    "url": "https://www.active.com/baseball/articles/pitcher-s-guide-to-covering-first-base"
+   }
+  ]
+ },
+ "G7": {
+  "rule": "Ball to 3B with a runner on 2nd: SS covers 3rd",
+  "verdict": "confirmed",
+  "note": "The SS covers 3rd on balls hit to their right that they cannot field.",
+  "links": [
+   {
+    "name": "Larry Mason (UNC) — Shortstop",
+    "url": "https://mason.web.unc.edu/2018/10/shortstop/"
+   }
+  ]
+ },
+ "G8": {
+  "rule": "Catcher backs up the throw to 1st (no runner on 2nd or 3rd)",
+  "verdict": "confirmed",
+  "note": "Moeller: on every ground ball unless there is a runner on 2nd or 3rd. We originally only did this with the bases empty; it now also applies with just a runner on 1st.",
+  "links": [
+   {
+    "name": "Chad Moeller — catcher responsibilities",
+    "url": "https://chadmoellerbaseball.com/catcher-responsibilities/"
+   }
+  ]
+ },
+ "G9": {
+  "rule": "Outfield on grounders: RF backs up 1st, CF 2nd, LF 3rd",
+  "verdict": "confirmed",
+  "note": "LF and CF also charge in behind the SS/3B when the ball is hit to them.",
+  "links": [
+   {
+    "name": "Larry Mason (UNC) — Right field",
+    "url": "https://mason.web.unc.edu/2018/10/right-field/"
+   },
+   {
+    "name": "Larry Mason (UNC) — Center field",
+    "url": "https://mason.web.unc.edu/2018/10/center-field/"
+   },
+   {
+    "name": "Larry Mason (UNC) — Left field",
+    "url": "https://mason.web.unc.edu/2018/10/left-field/"
+   }
+  ]
+ },
+ "G10": {
+  "rule": "Runners: 2nd holds on a ball in front, 3rd holds unless forced; 2 outs run on contact",
+  "verdict": "partly",
+  "note": "The runner on 3rd depends on how deep the infield is playing and the coach's call — many teams use \"ground ball, go.\" Some coaches send the runner on 2nd once the throw goes to 1st.",
+  "links": [
+   {
+    "name": "Little League University — coaching the bases",
+    "url": "https://www.littleleague.org/university/articles/coaching-the-bases-101/"
+   },
+   {
+    "name": "Coaches Insider — runner on 3rd checklist",
+    "url": "https://coachesinsider.com/baseball/baserunning-checklist-runner-on-third"
+   }
+  ]
+ },
+ "B1": {
+  "rule": "Sac bunt, runner on 1st: 1B & 3B charge, 2B covers 1st, SS covers 2nd",
+  "verdict": "confirmed",
+  "note": "Take the sure out unless the lead runner is there. Some teams have the catcher cover 3rd when the 3B fields it.",
+  "links": [
+   {
+    "name": "Coaches Insider — bunt defense",
+    "url": "https://coachesinsider.com/baseball/bunt-defense"
+   },
+   {
+    "name": "ABCA — bunt defense in youth baseball",
+    "url": "https://abca.org/magazine/2025-4-July-August/Coaches_Corner_Bunt_Defense_in_Youth_Baseball.aspx"
+   }
+  ]
+ },
+ "B2": {
+  "rule": "Bunt, runners on 1st & 2nd: 3B reads it and stays at 3rd if the pitcher can field it",
+  "verdict": "partly",
+  "note": "This is the standard setup. The main alternative is the \"wheel play\": 3B and 1B both charge and the SS rotates over to cover 3rd.",
+  "links": [
+   {
+    "name": "Coaches Insider — bunt defense",
+    "url": "https://coachesinsider.com/baseball/bunt-defense"
+   },
+   {
+    "name": "Wikipedia — Wheel play",
+    "url": "https://en.wikipedia.org/wiki/Wheel_play"
+   }
+  ]
+ },
+ "B3": {
+  "rule": "Bunt, runner on 2nd only: 3B reads it, pitcher takes the 3B-line bunt",
+  "verdict": "partly",
+  "note": "We originally had the 3B charge and the SS cover 3rd — that is the wheel play, a specialized call. Changed to the more common conservative setup.",
+  "links": [
+   {
+    "name": "Coaches Insider — bunt defense",
+    "url": "https://coachesinsider.com/baseball/bunt-defense"
+   },
+   {
+    "name": "Wikipedia — Wheel play",
+    "url": "https://en.wikipedia.org/wiki/Wheel_play"
+   }
+  ]
+ },
+ "B4": {
+  "rule": "Bunt backups: RF behind 1st, CF behind 2nd, LF behind 3rd; catcher calls it",
+  "verdict": "partly",
+  "note": "RF and LF are confirmed. No source spells out the CF on bunts. ABCA splits the calls: catcher calls the 1B side, 3B calls the 3B side.",
+  "links": [
+   {
+    "name": "Larry Mason (UNC) — Left field",
+    "url": "https://mason.web.unc.edu/2018/10/left-field/"
+   },
+   {
+    "name": "Chad Moeller — catcher responsibilities",
+    "url": "https://chadmoellerbaseball.com/catcher-responsibilities/"
+   },
+   {
+    "name": "ABCA — bunt defense in youth baseball",
+    "url": "https://abca.org/magazine/2025-4-July-August/Coaches_Corner_Bunt_Defense_in_Youth_Baseball.aspx"
+   }
+  ]
+ },
+ "S1": {
+  "rule": "Single, nobody in scoring position: throw to 2nd; SS is cutoff on LF/CF, 2B on RF",
+  "verdict": "confirmed",
+  "note": "On balls to center, some systems swap the middle infielders depending on which side of center. The pitcher backs up 2nd.",
+  "links": [
+   {
+    "name": "Defensive Situations & Strategies chart (PDF)",
+    "url": "https://cdn1.sportngin.com/attachments/document/0098/4522/Defensive_Situations_and_Strategies.pdf"
+   },
+   {
+    "name": "Inside Baseball — Cutoff & Relay eBook (PDF)",
+    "url": "https://s3.amazonaws.com/my.llfiles.com/00295207/InsideBaseball-Cutoff-Relay-eBook-Part-1.pdf"
+   }
+  ]
+ },
+ "S2": {
+  "rule": "Runner on 1st, single to CF/RF: throw to 3rd, SS is the cutoff",
+  "verdict": "confirmed",
+  "note": "Pitcher backs up 3rd \"as deep as possible.\" 2B covers 2nd, 1B covers 1st, catcher stays home.",
+  "links": [
+   {
+    "name": "Defensive Situations & Strategies chart (PDF)",
+    "url": "https://cdn1.sportngin.com/attachments/document/0098/4522/Defensive_Situations_and_Strategies.pdf"
+   },
+   {
+    "name": "Pro Baseball Insider — SS cutoffs & relays",
+    "url": "https://probaseballinsider.com/shortstop-positioning-part-1-cut-offs-and-relays/"
+   }
+  ]
+ },
+ "S3": {
+  "rule": "Runner on 1st, single to LF: SS lines up to 3rd, throw to 2nd unless a sure out",
+  "verdict": "partly",
+  "note": "We originally skipped the cutoff to 3rd. Charts still line the SS up to 3rd with the pitcher backing up; the outfielder throws to 3rd only if sure, otherwise to 2nd.",
+  "links": [
+   {
+    "name": "Pro Baseball Insider — where to throw",
+    "url": "https://probaseballinsider.com/baseball-instruction/outfield/outfield-strategy-where-to-throw-the-ball/"
+   },
+   {
+    "name": "Defensive Situations & Strategies chart (PDF)",
+    "url": "https://cdn1.sportngin.com/attachments/document/0098/4522/Defensive_Situations_and_Strategies.pdf"
+   }
+  ]
+ },
+ "S4": {
+  "rule": "Play at home on a single: 3B is cutoff from LF, 1B from CF/RF; pitcher backs up home",
+  "verdict": "confirmed",
+  "note": "Cutoff about 40–45 ft in front of home (90-ft field). Variant: on CF/RF, 2B covers 2nd and SS lines up to 3rd as a second cutoff.",
+  "links": [
+   {
+    "name": "Pro Baseball Insider — SS cutoffs & relays",
+    "url": "https://probaseballinsider.com/shortstop-positioning-part-1-cut-offs-and-relays/"
+   },
+   {
+    "name": "Pro Baseball Insider — 3B relay positioning",
+    "url": "https://probaseballinsider.com/baseball-instruction/third-base/third-base-positioning-for-relays/"
+   }
+  ]
+ },
+ "S5": {
+  "rule": "Single with nobody on: catcher follows the batter toward 1st",
+  "verdict": "partly",
+  "note": "Most charts do this on balls to LF and RF. On balls to center some have the catcher only break toward 1st — they must be able to get back to home.",
+  "links": [
+   {
+    "name": "Inside Baseball — Cutoff & Relay eBook (PDF)",
+    "url": "https://s3.amazonaws.com/my.llfiles.com/00295207/InsideBaseball-Cutoff-Relay-eBook-Part-1.pdf"
+   },
+   {
+    "name": "Rochester Youth Baseball — cutoff slides",
+    "url": "https://docs.google.com/presentation/d/14EPTLoH9zGCjuI3qqpFIE8iigkZ03FcydT7ZLPYPI6E/htmlpresent"
+   }
+  ]
+ },
+ "S6": {
+  "rule": "Caught fly, less than 2 outs: runners tag; 3rd tags home, 2nd tags to 3rd on CF/RF",
+  "verdict": "partly",
+  "note": "Tagging to 3rd is easier on balls to center and right because the throw is longer. No chart we found spells out sacrifice-fly cutoffs, so we reuse the single-to-the-outfield cutoffs.",
+  "links": [
+   {
+    "name": "Pro Baseball Insider — where to throw",
+    "url": "https://probaseballinsider.com/baseball-instruction/outfield/outfield-strategy-where-to-throw-the-ball/"
+   }
+  ]
+ },
+ "S7": {
+  "rule": "Outfield backups: next outfielder backs up the fielder; far corner covers the base the throw may go to",
+  "verdict": "partly",
+  "note": "On a ball to LF, RF backs up 2nd. On a ball to RF, LF backs up 3rd only when the throw can go there — with nobody on, LF moves in behind 2nd instead. (We fixed this.)",
+  "links": [
+   {
+    "name": "Defensive Situations & Strategies chart (PDF)",
+    "url": "https://cdn1.sportngin.com/attachments/document/0098/4522/Defensive_Situations_and_Strategies.pdf"
+   },
+   {
+    "name": "Inside Baseball — Cutoff & Relay eBook (PDF)",
+    "url": "https://s3.amazonaws.com/my.llfiles.com/00295207/InsideBaseball-Cutoff-Relay-eBook-Part-1.pdf"
+   }
+  ]
+ },
+ "S8": {
+  "rule": "A backup stands behind the base, in line with the throw",
+  "verdict": "confirmed",
+  "note": "Charts say \"as deep as possible.\" No source gives a fixed distance behind the base; our distances are our own estimates.",
+  "links": [
+   {
+    "name": "Pro Baseball Insider — relay fundamentals",
+    "url": "https://probaseballinsider.com/baseball-instruction/relay-and-cut-off-fundamentals/"
+   },
+   {
+    "name": "Defensive Situations & Strategies chart (PDF)",
+    "url": "https://cdn1.sportngin.com/attachments/document/0098/4522/Defensive_Situations_and_Strategies.pdf"
+   }
+  ]
+ },
+ "R1": {
+  "rule": "Gap double: SS is the lead relay in left-center, 2B in right-center",
+  "verdict": "confirmed",
+  "note": "Every source we checked agrees.",
+  "links": [
+   {
+    "name": "Inside Baseball — Cutoffs & Relays (PDF)",
+    "url": "https://cdn1.sportngin.com/attachments/document/e934-2443306/Baseball-Cutoff-Relay.pdf"
+   },
+   {
+    "name": "Active — tandem cuts",
+    "url": "https://www.active.com/baseball/articles/defender-s-guide-to-tandem-cuts-876059"
+   }
+  ]
+ },
+ "R2": {
+  "rule": "Double cut (trail man) on big fields; one relay man on a Little League field",
+  "verdict": "partly",
+  "note": "Trail distance varies by source (about 15–30 ft). No official Little League guidance for small fields. Inside Baseball only sends the trailer when the ball reaches the fence; Active says tandem relays need older arms. One relay man on 60-ft fields is our call.",
+  "links": [
+   {
+    "name": "Inside Baseball — Cutoffs & Relays (PDF)",
+    "url": "https://cdn1.sportngin.com/attachments/document/e934-2443306/Baseball-Cutoff-Relay.pdf"
+   },
+   {
+    "name": "Active — tandem cuts",
+    "url": "https://www.active.com/baseball/articles/defender-s-guide-to-tandem-cuts-876059"
+   },
+   {
+    "name": "Team \"Cuts and Relays\" sheet (PDF)",
+    "url": "https://cdn4.sportngin.com/attachments/document/7388-1865523/Cuts_Relays.pdf"
+   }
+  ]
+ },
+ "R3": {
+  "rule": "Gap double, runner scoring: 1B is the cutoff in front of home (even on the left side)",
+  "verdict": "confirmed",
+  "note": "The 3B stays at 3rd, the catcher is at home. The pitcher goes halfway between 3rd and home and reads the throw (we changed this from \"back up home\"). Some systems send the pitcher straight to 3rd.",
+  "links": [
+   {
+    "name": "Inside Baseball — Cutoffs & Relays (PDF)",
+    "url": "https://cdn1.sportngin.com/attachments/document/e934-2443306/Baseball-Cutoff-Relay.pdf"
+   },
+   {
+    "name": "Pro Baseball Insider — double cuts & relays",
+    "url": "https://probaseballinsider.com/baseball-instruction/positioning-for-double-cuts-and-relays/"
+   }
+  ]
+ },
+ "R4": {
+  "rule": "Gap double, bases empty: relay to 3rd; 1B trails the batter to 2nd",
+  "verdict": "confirmed",
+  "note": "Pitcher backs up 3rd as deep as possible. On big fields the other middle infielder only trails if the ball reaches the fence.",
+  "links": [
+   {
+    "name": "Inside Baseball — Cutoffs & Relays (PDF)",
+    "url": "https://cdn1.sportngin.com/attachments/document/e934-2443306/Baseball-Cutoff-Relay.pdf"
+   },
+   {
+    "name": "Team \"Cuts and Relays\" sheet (PDF)",
+    "url": "https://cdn4.sportngin.com/attachments/document/7388-1865523/Cuts_Relays.pdf"
+   }
+  ]
+ },
+ "R5": {
+  "rule": "Gap double backups: RF in toward 2nd (left-center), LF toward 3rd (right-center)",
+  "verdict": "confirmed",
+  "note": "The outfielders going for the ball back each other up — whoever doesn't field it backs up the one who does.",
+  "links": [
+   {
+    "name": "Inside Baseball — Cutoffs & Relays (PDF)",
+    "url": "https://cdn1.sportngin.com/attachments/document/e934-2443306/Baseball-Cutoff-Relay.pdf"
+   },
+   {
+    "name": "Pro Baseball Insider — double cuts & relays",
+    "url": "https://probaseballinsider.com/baseball-instruction/positioning-for-double-cuts-and-relays/"
+   }
+  ]
+ }
+}

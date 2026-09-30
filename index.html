@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Situation Simulator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Graduate&family=Inter:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="styles.css?v=2">
+</head>
+<body>
+  <header>
+    <h1>Situation Simulator</h1>
+    <p class="sub">Set the runners, the outs, and where the ball goes — then see where everyone should be.</p>
+  </header>
+
+  <main>
+    <section class="controls" aria-label="Set up the situation">
+      <div class="card">
+        <h2>Field</h2>
+        <div class="seg" id="levelBtns"></div>
+        <p class="hint" id="levelDetail"></p>
+      </div>
+      <div class="card">
+        <h2>Runners</h2>
+        <div class="seg" id="runnerBtns"></div>
+        <p class="hint">Or tap the bases on the field.</p>
+      </div>
+      <div class="card">
+        <h2>Outs</h2>
+        <div class="seg" id="outBtns"></div>
+      </div>
+      <div class="card">
+        <h2>Ball in play</h2>
+        <div id="hitBtns"></div>
+      </div>
+      <div class="card">
+        <h2>Quiz me as…</h2>
+        <select id="focusSel"></select>
+        <p class="hint" id="focusHint">Pick a position, tap where that player should go, then hit <b>Show me</b>.</p>
+      </div>
+    </section>
+
+    <section class="board">
+      <div class="sitbar">
+        <div id="sitText" class="sit-text"></div>
+        <div class="outs" id="outDots" aria-label="Outs"></div>
+      </div>
+      <svg id="field" viewBox="-250 -318 500 372" role="img" aria-label="Baseball field"></svg>
+      <div class="actions">
+        <button id="randomBtn" class="btn">🎲 Random situation</button>
+        <button id="showBtn" class="btn primary">▶ Show me!</button>
+      </div>
+      <div class="legend">
+        <span><i style="--c:var(--field)"></i>Fields the ball</span>
+        <span><i style="--c:var(--cover)"></i>Covers a base</span>
+        <span><i style="--c:var(--cutoff)"></i>Cutoff / relay</span>
+        <span><i style="--c:var(--backup)"></i>Backs up</span>
+        <span><i class="runner"></i>Runner</span>
+        <span><b class="throw"></b>Throw</span>
+        <span><b class="throw maybe"></b>Possible throw (what a backup lines up with)</span>
+      </div>
+    </section>
+
+    <section class="answer" aria-live="polite">
+      <div class="card" id="answer"></div>
+    </section>
+  </main>
+
+  <script src="sources.js?v=2"></script>
+  <script src="engine.js?v=2"></script>
+  <script src="app.js?v=2"></script>
+</body>
+</html>
