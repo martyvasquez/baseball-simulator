@@ -127,7 +127,7 @@ struct RunnerDiamond: View {
             toggle(n)
         } label: {
             RoundedRectangle(cornerRadius: 3)
-                .fill(on ? Theme.runner : Color(.systemBackground))
+                .fill(on ? Theme.runner : Color.secondary.opacity(0.15))
                 .overlay(RoundedRectangle(cornerRadius: 3).strokeBorder(on ? .white : .secondary, lineWidth: 1.5))
                 .frame(width: 18, height: 18)
                 .rotationEffect(.degrees(45))
@@ -136,7 +136,7 @@ struct RunnerDiamond: View {
         }
         .buttonStyle(.plain)
         .position(pt)
-        .sensoryFeedback(.selection, trigger: on)
+        .selectionFeedback(trigger: on)
         .accessibilityLabel(["First", "Second", "Third"][n - 1] + " base")
         .accessibilityValue(on ? "Runner on" : "Empty")
         .accessibilityAddTraits(on ? .isSelected : [])

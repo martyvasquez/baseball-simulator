@@ -12,7 +12,11 @@ struct AnswerPanel: View {
                 thinkFirst
             }
         }
+        #if os(iOS)
         .listStyle(.insetGrouped)
+        #else
+        .listStyle(.inset)
+        #endif
         .animation(.snappy, value: model.revealed)
         .animation(.snappy, value: model.focus)
     }

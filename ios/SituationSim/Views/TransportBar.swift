@@ -50,7 +50,7 @@ struct TransportBar: View {
             .buttonStyle(.borderless)
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
-            .glassEffect(.regular, in: .capsule)
+            .glassCapsule()
         }
     }
 

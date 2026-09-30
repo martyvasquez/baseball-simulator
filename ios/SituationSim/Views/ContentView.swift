@@ -3,13 +3,21 @@ import SwiftUI
 struct ContentView: View {
     @State private var model = SimulatorModel()
     @State private var showAnswer = true
+    #if os(iOS)
     @State private var columns = NavigationSplitViewVisibility.detailOnly
+    #else
+    // A Mac window has room for setup, field, and answer side by side.
+    @State private var columns = NavigationSplitViewVisibility.all
+    #endif
 
     var body: some View {
         NavigationSplitView(columnVisibility: $columns) {
             SetupSidebar(model: model)
                 .navigationSplitViewColumnWidth(min: 280, ideal: 320, max: 380)
+                #if os(iOS)
+                // iPad uses the custom button below; the Mac keeps its standard sidebar button.
                 .toolbar(removing: .sidebarToggle)
+                #endif
         } detail: {
             stage
                 .inspector(isPresented: $showAnswer) {
@@ -17,6 +25,7 @@ struct ContentView: View {
                         .inspectorColumnWidth(min: 300, ideal: 360, max: 440)
                 }
                 .toolbar {
+                    #if os(iOS)
                     ToolbarItem(placement: .topBarLeading) {
                         Button {
                             withAnimation { columns = columns == .detailOnly ? .all : .detailOnly }
@@ -25,6 +34,7 @@ struct ContentView: View {
                         }
                         .keyboardShortcut("s", modifiers: [.command, .control])
                     }
+                    #endif
                     ToolbarItemGroup(placement: .primaryAction) {
                         Button("Random Situation", systemImage: "dice", action: model.randomize)
                             .keyboardShortcut("r", modifiers: .command)
@@ -33,12 +43,15 @@ struct ContentView: View {
                         } label: {
                             Label("Answer", systemImage: "sidebar.trailing")
                         }
+                        .help("Show or hide the answer")
                     }
                 }
         }
+        #if os(iOS)
         // The setup sidebar slides over the field instead of squeezing it.
         .navigationSplitViewStyle(.prominentDetail)
-        .sensoryFeedback(.impact(weight: .medium), trigger: model.throwLandings)
+        #endif
+        .impactFeedback(trigger: model.throwLandings)
         #if DEBUG
         .task { DemoLaunch.apply(to: model) }
         #endif
@@ -51,7 +64,9 @@ struct ContentView: View {
             .safeAreaInset(edge: .bottom, spacing: 8) { controls }
             .background(Theme.foulGrass)
             .navigationTitle(model.situation.hit.text)
+            #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
     }
 
     private var header: some View {
@@ -75,31 +90,31 @@ struct ContentView: View {
         }
         .padding(.horizontal, 18)
         .padding(.vertical, 10)
-        .glassEffect(.regular, in: .capsule)
+        .glassCapsule()
         .padding(.top, 8)
     }
 
     private var controls: some View {
-        GlassEffectContainer(spacing: 16) {
+        GlassGroup(spacing: 16) {
             VStack(spacing: 14) {
-            if model.revealed {
-                TransportBar(model: model)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-            }
-            HStack(spacing: 16) {
-                Button("Random", systemImage: "dice", action: model.randomize)
-                    .buttonStyle(.glass)
-                Button(model.revealed ? "Replay" : "Show Me!", systemImage: model.revealed ? "arrow.counterclockwise" : "play.fill") {
-                    model.reveal()
-                    showAnswer = true
+                if model.revealed {
+                    TransportBar(model: model)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
-                .buttonStyle(.glassProminent)
-                .tint(Theme.runner)
-                // After the reveal, Space is play/pause on the transport bar.
-                .keyboardShortcut(model.revealed ? nil : KeyboardShortcut(.space, modifiers: []))
-            }
-            .controlSize(.extraLarge)
-            .font(.headline)
+                HStack(spacing: 16) {
+                    Button("Random", systemImage: "dice", action: model.randomize)
+                        .glassButton()
+                    Button(model.revealed ? "Replay" : "Show Me!", systemImage: model.revealed ? "arrow.counterclockwise" : "play.fill") {
+                        model.reveal()
+                        showAnswer = true
+                    }
+                    .glassButton(prominent: true)
+                    .tint(Theme.runner)
+                    // After the reveal, Space is play/pause on the transport bar.
+                    .keyboardShortcut(model.revealed ? nil : KeyboardShortcut(.space, modifiers: []))
+                }
+                .controlSize(.extraLarge)
+                .font(.headline)
             }
             .animation(.snappy, value: model.revealed)
         }
