@@ -16,8 +16,17 @@ final class SimulatorModel {
             if oldValue.level != situation.level { UserDefaults.standard.set(situation.level.rawValue, forKey: "level") }
             guess = nil
             reset()
+            chat.cancel()
+            chat = PlayChat(situation: situation)
         }
     }
+
+    /// Which side of the answer panel is showing.
+    enum AnswerTab: Hashable { case answer, ask }
+    var answerTab = AnswerTab.answer
+
+    /// Questions to ChatGPT about this situation. A new situation starts a new chat.
+    private(set) var chat: PlayChat
 
     private(set) var solution: Solution?
     /// Where the play is, in milliseconds (as of `anchorDate` while playing).
@@ -45,6 +54,7 @@ final class SimulatorModel {
     init() {
         let saved = UserDefaults.standard.string(forKey: "level").flatMap(Level.init(rawValue:)) ?? .ll
         situation = Situation(level: saved)
+        chat = PlayChat(situation: Situation(level: saved))
         let savedSpeed = UserDefaults.standard.double(forKey: "speed")
         speed = Self.speeds.contains(savedSpeed) ? savedSpeed : 1
     }

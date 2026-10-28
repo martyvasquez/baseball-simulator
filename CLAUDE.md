@@ -30,6 +30,17 @@ and run the tests (below). `EngineParityTests` compares the Swift engine to the 
 
 **5. The Xcode project is generated.** Edit `ios/project.yml`, run `xcodegen generate` in `ios/`, and commit both `project.yml` and `SituationSim.xcodeproj`.
 
+## Ask ChatGPT (Mac and iPad only)
+
+After a play is shown, the answer panel's **Ask** tab lets someone sign in with their own ChatGPT account (Sign in with ChatGPT, on their Plus/Pro plan) and ask about that play. One chat per situation: changing the situation starts a new chat (`SimulatorModel.situation` → `PlayChat`); replaying keeps it.
+
+- `ios/SituationSim/AI/`: the sign-in and client are copied from Peanut Manager (`peanut-manager-mac/Packages/LineupKit/Sources/LineupAI/ChatGPT`), plus streamed text. Fixes there may apply here.
+- **Settings** (⌘, on Mac, gear button on iPad; `Views/SettingsView.swift`): sign in/out, and the model and thinking level. Default is GPT-5.6 Luna at medium (`AIService.defaultModel` / `defaultEffort`); a choice is saved in UserDefaults (`chatGPTModel`, `chatGPTEffort`) and the Ask tab footer shows what's in use.
+- `PlayChat.instructions` / `PlayChat.context(...)` are everything ChatGPT is told: the situation, the engine's answer, every fielder's job, and the source notes. It's told not to contradict the engine.
+- The sign-in is stored by `SecretStore`: keychain on iPad, an owner-only file in `~/Library/Application Support/Situations/` on Mac (the ad-hoc-signed, self-updating Mac app would hit a keychain password prompt after every update).
+- Debug launch arguments: `-fakeAI YES` (canned answers, no sign-in, nothing sent) and `-ask "question"`.
+- The web app has no chat: a static page can't receive the sign-in redirect.
+
 ## Testing
 
 ```sh

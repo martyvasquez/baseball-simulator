@@ -137,7 +137,7 @@ struct AnswerPanel: View {
             ForEach(s.runners) { m in
                 HStack(spacing: 12) {
                     PositionBadge(label: m.id, ring: .white, fill: Theme.runner)
-                    (Text(m.id == "B" ? "Batter: " : "Runner on \(m.from.name): ").bold() + Text(runnerText(m)))
+                    (Text(m.id == "B" ? "Batter: " : "Runner on \(m.from.name): ").bold() + Text(m.summary))
                 }
             }
         }
@@ -150,13 +150,6 @@ struct AnswerPanel: View {
                 }
             }
         }
-    }
-
-    private func runnerText(_ m: RunnerMove) -> String {
-        if m.out { return "Out when the ball is caught" }
-        if m.to == m.from { return m.note.isEmpty ? "Stays" : m.note }
-        let go = m.to == .home ? "Heads home" : "Goes to \(m.to.name)"
-        return m.note.isEmpty ? go : "\(go) — \(m.note)"
     }
 }
 

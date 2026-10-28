@@ -3,41 +3,70 @@ import SwiftUI
 struct ContentView: View {
     @State private var model = SimulatorModel()
     @State private var showAnswer = true
+    @State private var ai = AIService.shared
     #if os(iOS)
     @State private var columns = NavigationSplitViewVisibility.detailOnly
+    // On iPhone the columns collapse into one screen; start on the field, not the setup list.
+    @State private var compactColumn = NavigationSplitViewColumn.detail
+    @Environment(\.horizontalSizeClass) private var sizeClass
+    private var isCompact: Bool { sizeClass == .compact }
     #else
     // A Mac window has room for setup, field, and answer side by side.
     @State private var columns = NavigationSplitViewVisibility.all
     #endif
 
     var body: some View {
-        NavigationSplitView(columnVisibility: $columns) {
+        NavigationSplitView(columnVisibility: $columns, preferredCompactColumn: compactColumnBinding) {
             SetupSidebar(model: model)
                 .navigationSplitViewColumnWidth(min: 280, ideal: 320, max: 380)
                 #if os(iOS)
                 // iPad uses the custom button below; the Mac keeps its standard sidebar button.
                 .toolbar(removing: .sidebarToggle)
+                .toolbar {
+                    if isCompact {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Done") { compactColumn = .detail }
+                        }
+                    }
+                }
                 #endif
         } detail: {
             stage
                 .inspector(isPresented: $showAnswer) {
-                    AnswerPanel(model: model)
+                    InspectorPanel(model: model)
                         .inspectorColumnWidth(min: 300, ideal: 360, max: 440)
+                        #if os(iOS)
+                        // On iPhone the answer is a sheet; half height leaves the field in view.
+                        .presentationDetents([.medium, .large])
+                        .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+                        #endif
                 }
                 .toolbar {
                     #if os(iOS)
                     ToolbarItem(placement: .topBarLeading) {
                         Button {
-                            withAnimation { columns = columns == .detailOnly ? .all : .detailOnly }
+                            if isCompact {
+                                compactColumn = .sidebar
+                            } else {
+                                withAnimation { columns = columns == .detailOnly ? .all : .detailOnly }
+                            }
                         } label: {
                             Label("Set Up Situation", systemImage: "sidebar.leading")
                         }
                         .keyboardShortcut("s", modifiers: [.command, .control])
                     }
                     #endif
-                    ToolbarItemGroup(placement: .primaryAction) {
-                        Button("Random Situation", systemImage: "dice", action: model.randomize)
-                            .keyboardShortcut("r", modifiers: .command)
+                    #if os(iOS)
+                    ToolbarItem(placement: .primaryAction) {
+                        Button {
+                            AIService.shared.showSettings = true
+                        } label: {
+                            Label("Settings", systemImage: "gearshape")
+                        }
+                        .keyboardShortcut(",", modifiers: .command)
+                    }
+                    #endif
+                    ToolbarItem(placement: .primaryAction) {
                         Button {
                             showAnswer.toggle()
                         } label: {
@@ -52,8 +81,23 @@ struct ContentView: View {
         .navigationSplitViewStyle(.prominentDetail)
         #endif
         .impactFeedback(trigger: model.throwLandings)
+        #if os(iOS)
+        .sheet(isPresented: $ai.showSettings) { SettingsView() }
+        #endif
+        #if os(iOS)
+        // On iPhone the answer sheet would cover the field, so it opens only when asked for.
+        .onAppear { if isCompact { showAnswer = false } }
+        #endif
         #if DEBUG
         .task { DemoLaunch.apply(to: model) }
+        #endif
+    }
+
+    private var compactColumnBinding: Binding<NavigationSplitViewColumn> {
+        #if os(iOS)
+        $compactColumn
+        #else
+        .constant(.detail)
         #endif
     }
 
@@ -66,6 +110,8 @@ struct ContentView: View {
             .navigationTitle(model.situation.hit.text)
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
+            // On iPhone the setup button already goes back to the setup list.
+            .navigationBarBackButtonHidden(isCompact)
             #endif
     }
 
@@ -104,9 +150,14 @@ struct ContentView: View {
                 HStack(spacing: 16) {
                     Button("Random", systemImage: "dice", action: model.randomize)
                         .glassButton()
+                        .keyboardShortcut("r", modifiers: .command)
                     Button(model.revealed ? "Replay" : "Show Me!", systemImage: model.revealed ? "arrow.counterclockwise" : "play.fill") {
                         model.reveal()
+                        #if os(iOS)
+                        if !isCompact { showAnswer = true }
+                        #else
                         showAnswer = true
+                        #endif
                     }
                     .glassButton(prominent: true)
                     .tint(Theme.runner)
@@ -119,6 +170,28 @@ struct ContentView: View {
             .animation(.snappy, value: model.revealed)
         }
         .padding(.bottom, 16)
+    }
+}
+
+/// The answer, and a chat with ChatGPT about the play, side by side as tabs.
+struct InspectorPanel: View {
+    @Bindable var model: SimulatorModel
+
+    var body: some View {
+        VStack(spacing: 0) {
+            Picker("Show", selection: $model.answerTab) {
+                Text("Answer").tag(SimulatorModel.AnswerTab.answer)
+                Label("Ask", systemImage: "bubble.left.and.text.bubble.right").tag(SimulatorModel.AnswerTab.ask)
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+            switch model.answerTab {
+            case .answer: AnswerPanel(model: model)
+            case .ask: AskPanel(model: model)
+            }
+        }
     }
 }
 

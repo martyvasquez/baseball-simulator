@@ -7,9 +7,12 @@ import AppKit
 #endif
 
 /// Debug-only launch arguments for screenshots, e.g.
-/// `-level hs -hit gap_LC -runners 100 -outs 1 -focus RF -reveal`
+/// `-level hs -hit gap_LC -runners 100 -outs 1 -focus RF -reveal YES -ask "Why?" -fakeAI YES`
 @MainActor
 enum DemoLaunch {
+    /// `-fakeAI YES`: the Ask tab works without signing in, with canned answers (nothing is sent anywhere).
+    static var fakeAI: Bool { UserDefaults.standard.bool(forKey: "fakeAI") }
+
     static func apply(to model: SimulatorModel) {
         let args = UserDefaults.standard
         var s = model.situation
@@ -27,6 +30,11 @@ enum DemoLaunch {
         #endif
         if args.bool(forKey: "reveal") { model.reveal() }
         if args.object(forKey: "at") != nil { model.scrub(to: args.double(forKey: "at")) }
+        // Ask a question about the revealed play, and show the Ask tab: -ask "Why throw to first?"
+        if let q = args.string(forKey: "ask"), let s = model.solution {
+            model.answerTab = .ask
+            model.chat.ask(q, about: s, focus: model.focus, grade: model.grade)
+        }
         #if os(macOS)
         // Save a picture of the window: -snapshot /path/to/file.png
         if let path = args.string(forKey: "snapshot") {
